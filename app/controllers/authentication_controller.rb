@@ -5,9 +5,9 @@ class AuthenticationController < ApplicationController
 
     def login
         @user = User.find_by_email(params[:email])
-        if @user && @user.authenticate(params[:password])
+        if @user &.authenticate(params[:password])
             token = jwt_encode({user_id: @user.id})
-            render json: {token: @user}, status: :ok
+            render json: {user: @user, token: token}, status: :ok
         else
             render json: {error: "Invalid email or password"}, status: :unauthorized
         end
